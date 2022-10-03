@@ -35,6 +35,33 @@ class DefaultTemplate(Scene):
         self.play(
             ReplacementTransform(framebox1, framebox2),
         )
+        self.play(FadeOut(text, framebox2))
         self.wait()
 
+        eq1 = MathTex(
+            r"e^x = x^0 + x^1 + \frac{1}{2} x^2 + \frac{1}{6} x^3 + \cdots + \frac{1}{n!}x^n + \cdots"
+        )
+        eq1.set_color_by_tex("x", GREEN)
+        text1 = MarkupText(
+            "<u>Incorrect Substring Latex</u>"
+        ).next_to(eq1, UP * 3)
 
+        text_group = Group(eq1, text1).move_to(UP * 2)
+        self.add(text_group)
+        self.play(FadeIn(text_group))
+        self.wait()
+
+        eq2 = MathTex(
+            r"e^x = x^0 + x^1 + \frac{1}{2} x^2 + \frac{1}{6} x^3 + \cdots + \frac{1}{n!}x^n + \cdots",
+            substrings_to_isolate = "x"
+        )
+        eq2.set_color_by_tex("x", GOLD)
+        text2 = MarkupText(
+            "<u>Correct Substring Latex</u>"
+        ).next_to(eq2, UP*3)
+        text_group2 = Group(eq2, text2).move_to(DOWN * 2)
+        self.add(text_group2)
+        self.play(FadeIn(text_group2))
+        self.wait()
+
+        self.play(FadeOut(text_group, text_group2))
